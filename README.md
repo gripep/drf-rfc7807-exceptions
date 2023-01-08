@@ -53,7 +53,7 @@ _Coming soon..._
 
 #### Field validation errors
 
-```yaml
+```json
 {
     "title": "Error message.",
     "invalid_params": [
@@ -71,7 +71,7 @@ _Coming soon..._
 
 #### Non-fields validation errors
 
-```yaml
+```json
 {
   "title": "Error message.",
   "detail": [
@@ -95,7 +95,7 @@ Default available settings:
 
 ```python
 REST_FRAMEWORK_EXCEPTIONS = {
-    "EXTRA_HANDLERS": []
+    "EXTRA_HANDLERS": [],
     "CAMELIZE": False,
 }
 ```
@@ -193,7 +193,7 @@ Camel case support for Django Rest Framework Exceptions JSON error responses.
 
 If `CAMELIZE` is set to `True`:
 
-```yaml
+```json
 {
   "title": "Error message.",
   "invalidParams": [
