@@ -29,7 +29,7 @@ Companies like Twitter use RFC7807 to format their API error messages, e.g. [Twi
 Install using the command line:
 
 ```
-pip install drf-problem-detail-exception
+pip install drf-problem-detail-exceptions
 ```
 
 ## Usage
@@ -40,7 +40,7 @@ Add `EXCEPTION_HANDLER` in your `REST_FRAMEWORK` settings of your Django project
 
 ```python
 REST_FRAMEWORK = {
-    ...
+    # ...
     "EXCEPTION_HANDLER": "rest_framework_exceptions.exception_handler",
 }
 ```
@@ -57,7 +57,13 @@ _Coming soon..._
 {
     "title": "Error message.",
     "invalid_params": [
-        {"name": "field_name", "reason": ["error", ...]},
+        {
+            "name": "field_name",
+            "reason": [
+                "error",
+                // ...
+            ]
+        },
         ...
     ]
 }
@@ -67,11 +73,11 @@ _Coming soon..._
 
 ```json
 {
-    "title": "Error message.",
-    "detail": [
-        "error",
-        ...
-    ]
+  "title": "Error message.",
+  "detail": [
+    "error"
+    // ...
+  ]
 }
 ```
 
@@ -176,7 +182,7 @@ Then add it to the `EXTRA_HANDLERS` setting:
 REST_FRAMEWORK_EXCEPTIONS = {
     "EXTRA_HANDLERS": [
         "path.to.my.handlers.handle_exc_custom_authentication_failed",
-        ...
+        # ...
     ]
 }
 ```
@@ -189,11 +195,17 @@ If `CAMELIZE` is set to `True`:
 
 ```json
 {
-    "title": "Error message.",
-    "invalidParams": [
-        {"name": "fieldName", "reason": ["error", ...]},
-        ...
-    ]
+  "title": "Error message.",
+  "invalidParams": [
+    {
+      "name": "fieldName",
+      "reason": [
+        "error"
+        // ...
+      ]
+    }
+    // ...
+  ]
 }
 ```
 
