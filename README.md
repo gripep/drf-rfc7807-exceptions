@@ -75,7 +75,7 @@ _Coming soon..._
 {
   "title": "Error message.",
   "detail": [
-    "error"
+    "error",
     ...
   ]
 }
