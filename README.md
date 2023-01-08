@@ -53,7 +53,7 @@ _Coming soon..._
 
 #### Field validation errors
 
-```json
+```yaml
 {
     "title": "Error message.",
     "invalid_params": [
@@ -61,7 +61,7 @@ _Coming soon..._
             "name": "field_name",
             "reason": [
                 "error",
-                // ...
+                ...
             ]
         },
         ...
@@ -71,12 +71,12 @@ _Coming soon..._
 
 #### Non-fields validation errors
 
-```json
+```yaml
 {
   "title": "Error message.",
   "detail": [
     "error"
-    // ...
+    ...
   ]
 }
 ```
@@ -193,7 +193,7 @@ Camel case support for Django Rest Framework Exceptions JSON error responses.
 
 If `CAMELIZE` is set to `True`:
 
-```json
+```yaml
 {
   "title": "Error message.",
   "invalidParams": [
@@ -201,10 +201,10 @@ If `CAMELIZE` is set to `True`:
       "name": "fieldName",
       "reason": [
         "error"
-        // ...
+        ...
       ]
     }
-    // ...
+    ...
   ]
 }
 ```
