@@ -200,7 +200,7 @@ If `CAMELIZE` is set to `True`:
     {
       "name": "fieldName",
       "reason": [
-        "error"
+        "error",
         ...
       ]
     }
