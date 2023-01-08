@@ -1,0 +1,11 @@
+# base
+Django==4.1.5
+djangorestframework==3.14
+
+# local
+black==22.12.0
+isort==5.11.4
+
+# test
+pytest==7.2.0
+pytest-django==4.5.2
