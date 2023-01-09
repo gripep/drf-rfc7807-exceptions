@@ -36,8 +36,9 @@ def exception_handler(exc, context):
     if isinstance(exc, PermissionDenied):
         exc = exceptions.PermissionDenied()
 
-    if api_settings.EXTRA_HANDLERS:
-        for handler in api_settings.EXTRA_HANDLERS:
+    extra_handlers = api_settings.EXTRA_HANDLERS
+    if extra_handlers:
+        for handler in extra_handlers:
             handler(exc)
 
     # unhandled exceptions, which should raise a 500 error and log the exception

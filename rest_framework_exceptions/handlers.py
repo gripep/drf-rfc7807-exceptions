@@ -3,8 +3,6 @@ from rest_framework.settings import api_settings as drf_api_settings
 from .settings import api_settings
 from .utils import camelize
 
-CAMELIZE = api_settings.CAMELIZE
-
 
 def handle_exc_detail_as_dict(data: dict, exc_detail: dict):
     invalid_params = []
@@ -14,15 +12,20 @@ def handle_exc_detail_as_dict(data: dict, exc_detail: dict):
 
         reason = error if not isinstance(error, list) or len(error) > 1 else error[0]
 
-        if field == drf_api_settings.NON_FIELD_ERRORS_KEY:
+        if field in {drf_api_settings.NON_FIELD_ERRORS_KEY, "__all__"}:
             if isinstance(reason, list):
                 non_field_errors.extend(reason)
             else:
                 non_field_errors.append(reason)
         else:
-            error_detail["name"] = field if not CAMELIZE else camelize(field)
-            # TODO: unify reason to return either `str` or `list`
-            error_detail["reason"] = reason
+            error_detail["name"] = (
+                field if not api_settings.CAMELIZE else camelize(field)
+            )
+            if isinstance(reason, list):
+                error_detail["reason"] = reason
+            else:
+                error_detail["reason"] = [reason]
+
             invalid_params.append(error_detail)
 
     if invalid_params:
