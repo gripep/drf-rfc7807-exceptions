@@ -7,7 +7,7 @@ from test_app.utils import ErrorMessages
 
 class Book(models.Model):
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="excs", on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL, related_name="books", on_delete=models.CASCADE
     )
     title = models.CharField(max_length=16)
     pages = models.IntegerField()
@@ -32,3 +32,8 @@ class Book(models.Model):
         self.full_clean()
 
         super().save(*args, **kwargs)
+
+
+class Library(models.Model):
+    name = models.CharField(max_length=16)
+    books = models.ManyToManyField(Book)
