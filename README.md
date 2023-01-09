@@ -4,10 +4,10 @@
 
 A library for [Django Rest Framework](https://www.django-rest-framework.org/) returning consistent and easy-to-parse error messages.
 
-This library has been implemented using [RFC7807](https://tools.ietf.org/html/rfc7807) guidelines. It defines a "problem detail" as a way to include machine-readable error details in an HTTP response without having to define new error response formats for HTTP APIs.
+This library was built with [RFC7807](https://tools.ietf.org/html/rfc7807) guidelines in mind, but with a small twist: it defines a "problem detail" as a way to include errors in a predictable and easy-to-parse format for any consumer.
 
 This library was designed to be used by anyone, therefore all of the advanced "problem detail" components are optional.
-Errors, on the other hand, are always formatted with DRF exception information formatted with RFC7807 keywords.
+Errors, on the other hand, are always formatted with RFC7807 keywords and DRF exception data.
 
 Companies like Twitter use RFC7807 to format their API error messages, e.g. [Twitter API response codes and errors](https://developer.twitter.com/en/support/twitter-api/error-troubleshooting).
 
