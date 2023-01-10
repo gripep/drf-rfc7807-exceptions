@@ -85,7 +85,7 @@ REST_FRAMEWORK = {
 }
 ```
 
-### Raising RFC7807-like errors
+#### RFC7807 errors
 
 _Coming soon..._
 
