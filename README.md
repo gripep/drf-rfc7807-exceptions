@@ -45,10 +45,6 @@ REST_FRAMEWORK = {
 }
 ```
 
-### Raising RFC7807-like errors
-
-_Coming soon..._
-
 ### Example JSON Error Responses
 
 #### Field validation errors
@@ -81,13 +77,17 @@ _Coming soon..._
 }
 ```
 
-### Other bad requests with no details
+#### Other bad requests with no details
 
 ```json
 {
   "title": "Error message."
 }
 ```
+
+### Raising RFC7807-like errors
+
+_Coming soon..._
 
 ## Settings
 
