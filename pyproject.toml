@@ -1,0 +1,56 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+name = "rest-framework-exceptions"
+version = "0.1.0"
+description = "A library for Django Rest Framework returning consistent and easy-to-parse error messages following RFC7807 guidelines."
+license = "MIT"
+authors = ["Gian <30044863+gripep@users.noreply.github.com>"]
+readme = "README.md"
+homepage = "https://github.com/gripep/drf-problem-detail-exceptions"
+repository = "https://github.com/gripep/drf-problem-detail-exceptions"
+documentation = "https://github.com/gripep/drf-problem-detail-exceptions/blob/master/README.md"
+keywords = ["python", "django", "django rest framework", "drf", "error handling", "errors", "exceptions"]
+classifiers = [
+    "Framework :: Django",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+include = [
+    "drf_problem_detail_exceptions ",
+    "LICENSE.md",
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.7"
+Django = { version = ">=2.2" }
+djangorestframework = { version = ">=3.0"}
+
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.0.2"
+pytest = "^6.2.5"
+pytest-django = "^3.0"
+six = "^1.16.0"
+
+
+[tool.isort]
+# https://pycqa.github.io/isort/docs/configuration/profiles.html
+profile = "black"
+combine_as_imports = "True"
+
+known_django = ["django", "rest_framework"]
+known_first_party = "./test_project"
+default_section = "THIRDPARTY"
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
