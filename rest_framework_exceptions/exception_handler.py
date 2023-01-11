@@ -1,4 +1,5 @@
 import logging
+from typing import Dict, List, Union
 
 from django.core.exceptions import (
     PermissionDenied,
@@ -68,7 +69,7 @@ def exception_handler(exc, context):
     return Response(data, status=exc.status_code, headers=headers)
 
 
-def _add_exc_detail_to_data(data: dict, exc_detail: dict | list) -> dict:
+def _add_exc_detail_to_data(data: Dict, exc_detail: Union[Dict, List]) -> Dict:
     logger.debug("`exc_detail` is instance of %s" % type(exc_detail))
 
     if isinstance(exc_detail, dict):

@@ -45,10 +45,6 @@ REST_FRAMEWORK = {
 }
 ```
 
-### Raising RFC7807-like errors
-
-_Coming soon..._
-
 ### Example JSON Error Responses
 
 #### Field validation errors
@@ -81,13 +77,17 @@ _Coming soon..._
 }
 ```
 
-### Other bad requests with no details
+#### Other bad requests with no details
 
 ```json
 {
   "title": "Error message."
 }
 ```
+
+#### RFC7807 errors
+
+_Coming soon..._
 
 ## Settings
 
@@ -211,16 +211,24 @@ If `CAMELIZE` is set to `True`:
 
 ## Testing
 
+#### Using tox
+
+```
+tox
+```
+
+#### Using poetry
+
 Install dependencies:
 
 ```
-pip install -r requirements.txt
+poetry install
 ```
 
 Run tests:
 
 ```
-pytest test_project
+poetry run pytest test_project
 ```
 
 ## Support
