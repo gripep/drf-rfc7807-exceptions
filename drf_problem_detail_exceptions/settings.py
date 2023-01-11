@@ -1,7 +1,7 @@
 from django.conf import settings
 from rest_framework.settings import APISettings
 
-USER_SETTINGS = getattr(settings, "REST_FRAMEWORK_EXCEPTIONS", {})
+USER_SETTINGS = getattr(settings, "DRF_PROBLEM_DETAILS_EXCEPTIONS", {})
 
 DEFAULTS = {
     "EXTRA_HANDLERS": [],

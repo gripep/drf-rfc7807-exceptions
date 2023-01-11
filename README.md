@@ -41,7 +41,7 @@ Add `EXCEPTION_HANDLER` in your `REST_FRAMEWORK` settings of your Django project
 ```python
 REST_FRAMEWORK = {
     # ...
-    "EXCEPTION_HANDLER": "rest_framework_exceptions.exception_handler",
+    "EXCEPTION_HANDLER": "drf_problem_detail_exceptions.exception_handler",
 }
 ```
 
@@ -94,7 +94,7 @@ _Coming soon..._
 Default available settings:
 
 ```python
-REST_FRAMEWORK_EXCEPTIONS = {
+DRF_PROBLEM_DETAILS_EXCEPTIONS = {
     "EXTRA_HANDLERS": [],
     "CAMELIZE": False,
 }
@@ -179,7 +179,7 @@ def handle_exc_custom_authentication_failed(exc):
 Then add it to the `EXTRA_HANDLERS` setting:
 
 ```python
-REST_FRAMEWORK_EXCEPTIONS = {
+DRF_PROBLEM_DETAILS_EXCEPTIONS = {
     "EXTRA_HANDLERS": [
         "path.to.my.handlers.handle_exc_custom_authentication_failed",
         # ...
