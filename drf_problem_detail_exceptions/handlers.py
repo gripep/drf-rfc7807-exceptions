@@ -1,12 +1,15 @@
+import copy
 from typing import Dict, List
 
 from rest_framework.settings import api_settings as drf_api_settings
 
 from .settings import api_settings
-from .utils import camelize
+from .utils import camelize, flatten_dict
 
 
 def handle_exc_detail_as_dict(data: Dict, exc_detail: Dict):
+    exc_detail = flatten_dict(copy.deepcopy(exc_detail))
+
     invalid_params = []
     non_field_errors = []
     for field, error in exc_detail.items():
