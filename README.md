@@ -132,7 +132,7 @@ Use exception in code:
 def my_func():
     raise AuthenticationFailed(
         {
-            "detail": _("Given token not valid for any token type"),
+            "detail": _("Error message."),
             "messages": [
                 {
                     "metadata": "metadata_data",
