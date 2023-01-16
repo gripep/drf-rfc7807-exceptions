@@ -2,14 +2,14 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from test_app.utils import ErrorMessages
+from test_app.utils import ErrorTriggers
 
 
 class Book(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="books", on_delete=models.CASCADE
     )
-    title = models.CharField(max_length=16)
+    title = models.CharField(max_length=32)
     pages = models.IntegerField()
     isbn10 = models.CharField(max_length=13, unique=True)
 
@@ -25,8 +25,8 @@ class Book(models.Model):
     def clean(self):
         super().clean()
 
-        if self.title == ErrorMessages.MODEL_ERROR:
-            raise ValidationError(ErrorMessages.MODEL_ERROR)
+        if self.title == ErrorTriggers.MODEL_VALIDATION.value:
+            raise ValidationError(ErrorTriggers.MODEL_VALIDATION)
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -35,5 +35,5 @@ class Book(models.Model):
 
 
 class Library(models.Model):
-    name = models.CharField(max_length=16)
+    name = models.CharField(max_length=32)
     books = models.ManyToManyField(Book)
