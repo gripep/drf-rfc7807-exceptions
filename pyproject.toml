@@ -19,7 +19,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     'Programming Language :: Python',
-    'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
@@ -33,7 +32,7 @@ include = [
 
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 
 Django = { version = ">=2.2" }
 djangorestframework = { version = ">=3.0"}
