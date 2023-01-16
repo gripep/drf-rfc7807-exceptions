@@ -1,5 +1,4 @@
 import logging
-from typing import Dict, List, Union
 
 from django.core.exceptions import (
     PermissionDenied,
@@ -11,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import as_serializer_error
 from rest_framework.views import set_rollback
 
-from .handlers import handle_exc_detail_as_dict, handle_exc_detail_as_list
+from .handlers import exc_detail_handler, is_exc_detail_same_as_default_detail
 from .settings import api_settings
 
 logger = logging.getLogger(__name__)
@@ -61,20 +60,15 @@ def exception_handler(exc, context):
         exc, exceptions.ValidationError
     ):
         data["title"] = "Validation error."
-        _add_exc_detail_to_data(data, exc.detail)
+        exc_detail_handler(data, exc.detail)
     else:
-        data = {"title": exc.detail}
+        data["title"] = exc.default_detail
+        if is_exc_detail_same_as_default_detail(exc):
+            pass
+        else:
+            exc_detail_handler(
+                data, [exc.detail] if isinstance(exc.detail, str) else exc.detail
+            )
 
     set_rollback()
     return Response(data, status=exc.status_code, headers=headers)
-
-
-def _add_exc_detail_to_data(data: Dict, exc_detail: Union[Dict, List]) -> Dict:
-    logger.debug("`exc_detail` is instance of %s" % type(exc_detail))
-
-    if isinstance(exc_detail, dict):
-        handle_exc_detail_as_dict(data, exc_detail)
-    elif isinstance(exc_detail, list):
-        handle_exc_detail_as_list(data, exc_detail)
-
-    return data
