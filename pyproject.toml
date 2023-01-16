@@ -34,14 +34,17 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
+
 Django = { version = ">=2.2" }
 djangorestframework = { version = ">=3.0"}
 
 
 [tool.poetry.group.dev.dependencies]
+factory-boy = "^3.2.1"
 isort = "^5.0.2"
 pytest = "^6.2.5"
 pytest-django = "^3.0"
+pytest-mock = "^3.10.0"
 six = "^1.16.0"
 
 
@@ -51,6 +54,6 @@ profile = "black"
 combine_as_imports = "True"
 
 known_django = ["django", "rest_framework"]
-known_first_party = "./test_project"
+known_first_party = ["test_app"]
 default_section = "THIRDPARTY"
 sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
