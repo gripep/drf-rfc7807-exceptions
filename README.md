@@ -4,12 +4,10 @@
 
 A library for [Django Rest Framework](https://www.django-rest-framework.org/) returning consistent and easy-to-parse error messages.
 
-This library was built with [RFC7807](https://tools.ietf.org/html/rfc7807) guidelines in mind, but with a small twist: it defines a "problem detail" as a way to include errors in a predictable and easy-to-parse format for any consumer.
+This library was built with [RFC7807](https://tools.ietf.org/html/rfc7807) guidelines in mind, but with a small twist: it defines a "problem detail" as a `list` but it still serves as a way to include errors in a predictable and easy-to-parse format for any consumer.
 
-This library was designed to be used by anyone, therefore all of the advanced "problem detail" components are optional.
+This library was designed to be used by anyone, therefore all of the advanced RFC7807 "problem detail" components are optional.
 Errors, on the other hand, are always formatted with RFC7807 keywords and DRF exception data.
-
-Companies like Twitter use RFC7807 to format their API error messages, e.g. [Twitter API response codes and errors](https://developer.twitter.com/en/support/twitter-api/error-troubleshooting).
 
 ## Table of Contents
 
@@ -18,8 +16,9 @@ Companies like Twitter use RFC7807 to format their API error messages, e.g. [Twi
   - [Exception Handler](#exception-handler)
   - [Example JSON Error Responses](#example-json-error-responses)
   - [Settings](#settings)
-    - [EXTRA_HANDLERS](#extra_handlers)
     - [CAMELIZE](#camelize)
+    - [EXTRA_HANDLERS](#extra_handlers)
+    - [FIELDS_SEPARATOR](#fields_separator)
 - [Testing](#testing)
 - [Support](#support)
 - [Contributing](#contributing)
@@ -95,8 +94,31 @@ Default available settings:
 
 ```python
 DRF_PROBLEM_DETAILS_EXCEPTIONS = {
-    "EXTRA_HANDLERS": [],
     "CAMELIZE": False,
+    "EXTRA_HANDLERS": [],
+    "FIELDS_SEPARATOR": ".",
+}
+```
+
+- #### CAMELIZE
+
+Camel case support for Django Rest Framework Exceptions JSON error responses.
+
+If `CAMELIZE` is set to `True`:
+
+```json
+{
+  "title": "Error message.",
+  "invalidParams": [
+    {
+      "name": "fieldName",
+      "reason": [
+        "error",
+        ...
+      ]
+    }
+    ...
+  ]
 }
 ```
 
@@ -176,7 +198,7 @@ def handle_exc_custom_authentication_failed(exc):
     return exc
 ```
 
-Then add it to the `EXTRA_HANDLERS` setting:
+Then add it to the `EXTRA_HANDLERS` list in this package settings:
 
 ```python
 DRF_PROBLEM_DETAILS_EXCEPTIONS = {
@@ -187,25 +209,25 @@ DRF_PROBLEM_DETAILS_EXCEPTIONS = {
 }
 ```
 
-- #### CAMELIZE
+- #### FIELDS_SEPARATOR
 
-Camel case support for Django Rest Framework Exceptions JSON error responses.
+Support for nested dicts containing multiple fields to be flattened.
 
-If `CAMELIZE` is set to `True`:
+If `FIELDS_SEPARATOR` is set to `.`:
 
-```json
+```python
 {
-  "title": "Error message.",
-  "invalidParams": [
-    {
-      "name": "fieldName",
-      "reason": [
-        "error",
-        ...
-      ]
+    "field1": {
+        "field2": "value"
     }
-    ...
-  ]
+}
+```
+
+Will result in:
+
+```python
+{
+    "field1.field2": "value"
 }
 ```
 
