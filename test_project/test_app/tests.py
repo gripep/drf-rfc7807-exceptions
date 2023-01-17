@@ -1,5 +1,4 @@
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.db.utils import IntegrityError
 from django.http import Http404
 from rest_framework import exceptions
 
@@ -324,10 +323,13 @@ class TestModelSerializerErrors:
         try:
             serializer.is_valid(raise_exception=True)
             serializer.save()
-        except IntegrityError as exc:
+        except ValidationError as exc:
             response = exception_handler(exc, mocker.Mock())
 
-            expected_response = {"title": "Server error."}
+            expected_response = {
+                "title": "Validation error.",
+                "detail": ["Pages cannot be more than 360."],
+            }
             assert render_response(response.data) == expected_response  # type: ignore
 
     def test_model_serializer_field_required_error_ok(
