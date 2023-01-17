@@ -27,16 +27,9 @@ class TestErrors:
         }
         assert render_response(response.data) == expected_response  # type: ignore
 
-    # ? TODO: Fix empty error messages cases
     @pytest.mark.parametrize(
         "error_message, expected_response",
         [
-            # ("", {"title": "Validation error."}),
-            # ([], {"title": "Validation error."}),
-            # ([""], {"title": "Validation error."}),
-            # ({}, {"title": "Validation error."}),
-            # ({"": ""}, {"title": "Validation error."}),
-            # ({"field": ""}, {"title": "Validation error."}),
             (
                 "Error message.",
                 {"title": "Validation error.", "detail": ["Error message."]},
@@ -63,16 +56,9 @@ class TestErrors:
 
         assert render_response(response.data) == expected_response  # type: ignore
 
-    # ? TODO: Fix empty error messages cases
     @pytest.mark.parametrize(
         "error_message, expected_response",
         [
-            # ("", {"title": "Validation error."}),
-            # ([], {"title": "Validation error."}),
-            # ([""], {"title": "Validation error."}),
-            # ({}, {"title": "Validation error."}),
-            # ({"": ""}, {"title": "Validation error."}),
-            # ({"field": ""}, {"title": "Validation error."}),
             (
                 "Error message.",
                 {"title": "A server error occurred.", "detail": ["Error message."]},
@@ -108,16 +94,9 @@ class TestErrors:
 
         assert render_response(response.data) == expected_response  # type: ignore
 
-    # ? TODO: Fix empty error messages cases
     @pytest.mark.parametrize(
         "error_message, expected_response",
         [
-            # ("", {"title": "Validation error."}),
-            # ([], {"title": "Validation error."}),
-            # ([""], {"title": "Validation error."}),
-            # ({}, {"title": "Validation error."}),
-            # ({"": ""}, {"title": "Validation error."}),
-            # ({"field": ""}, {"title": "Validation error."}),
             (
                 "Error message.",
                 {"title": "Validation error.", "detail": ["Error message."]},
