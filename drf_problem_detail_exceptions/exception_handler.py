@@ -63,9 +63,7 @@ def exception_handler(exc, context):
         exc_detail_handler(data, exc.detail)
     else:
         data["title"] = exc.default_detail
-        if is_exc_detail_same_as_default_detail(exc):
-            pass
-        else:
+        if not is_exc_detail_same_as_default_detail(exc):
             exc_detail_handler(
                 data, [exc.detail] if isinstance(exc.detail, str) else exc.detail
             )
