@@ -4,16 +4,15 @@ from .settings import api_settings
 
 
 def camelize(field: str) -> str:
+    def underscore_to_camel(match: re.Match) -> str:
+        group = match.group()
+        if len(group) == 3:
+            return group[0] + group[2].upper()
+        else:
+            return group[1].upper()
+
     camelize_re = re.compile(r"[a-z0-9]?_[a-z0-9]")
-    return re.sub(camelize_re, __underscore_to_camel, field)
-
-
-def __underscore_to_camel(match: re.Match) -> str:
-    group = match.group()
-    if len(group) == 3:
-        return group[0] + group[2].upper()
-    else:
-        return group[1].upper()
+    return re.sub(camelize_re, underscore_to_camel, field)
 
 
 def flatten_dict(data: dict, parent_key: str = "") -> dict:
