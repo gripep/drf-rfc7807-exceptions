@@ -68,7 +68,7 @@ def book_model_serializer():
 
         class Meta:
             model = Book
-            fields = ("author", "isbn10", "libraries", "pages", "title")
+            fields = ("author", "edition", "isbn10", "libraries", "pages", "title")
 
         def create(self, validated_data):
             if validated_data["title"] == ErrorTriggers.SERIALIZER_METHOD.value:

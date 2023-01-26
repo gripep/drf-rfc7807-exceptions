@@ -286,7 +286,7 @@ class TestModelSerializerErrors:
         data = {
             "author": user.username,
             "title": faker.word()[:32],
-            "pages": ErrorTriggers.MODEL_CONSTRAINT.value,
+            "pages": faker.pyint(max_value=360),
             "isbn10": faker.unique.isbn10(),
             "libraries": [library_name1, library_name2],
         }
@@ -406,5 +406,34 @@ class TestModelSerializerErrors:
             expected_response = {
                 "title": "Validation error.",
                 "detail": [f"Title cannot be {ErrorTriggers.SERIALIZER_VALIDATION}"],
+            }
+            assert render_response(response.data) == expected_response  # type: ignore
+
+    def test_model_serializer_bad_choice_error_ok(
+        self, book_model_serializer, faker, mocker, user
+    ):
+        edition = faker.word()[:8]
+        data = {
+            "author": user.username,
+            "title": faker.word()[:32],
+            "pages": faker.pyint(max_value=360),
+            "isbn10": faker.unique.isbn10(),
+            "edition": edition,
+        }
+
+        serializer = book_model_serializer(data=data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except exceptions.ValidationError as exc:
+            response = exception_handler(exc, mocker.Mock())
+
+            expected_response = {
+                "title": "Validation error.",
+                "invalid_params": [
+                    {
+                        "name": "edition",
+                        "reason": [f'"{edition}" is not a valid choice.'],
+                    }
+                ],
             }
             assert render_response(response.data) == expected_response  # type: ignore

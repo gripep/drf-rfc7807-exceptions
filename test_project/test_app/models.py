@@ -5,6 +5,12 @@ from django.db import models
 from test_app.utils import ErrorTriggers
 
 
+class BookEditionChoices(models.TextChoices):
+    FIRST = "first", "First"
+    SECOND = "second", "Second"
+    THIRD = "third", "Third"
+
+
 class Book(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="books", on_delete=models.CASCADE
@@ -12,6 +18,11 @@ class Book(models.Model):
     title = models.CharField(max_length=32)
     pages = models.IntegerField()
     isbn10 = models.CharField(max_length=13, unique=True)
+    edition = models.CharField(
+        max_length=8,
+        choices=BookEditionChoices.choices,
+        default=BookEditionChoices.FIRST,
+    )
 
     class Meta:
         constraints = [
