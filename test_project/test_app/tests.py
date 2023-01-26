@@ -176,11 +176,10 @@ class TestErrors:
 
 @pytest.mark.django_db
 class TestSerializerErrors:
-    def test_serializer_field_required_error_ok(self, book_serializer, mocker):
+    def test_field_required_error_ok(self, book_serializer, mocker):
         serializer = book_serializer(data={})
-        try:
-            serializer.is_valid(raise_exception=True)
-        except exceptions.ValidationError as exc:
+        with pytest.raises(exceptions.ValidationError):
+            exc = serializer.is_valid(raise_exception=True)
             response = exception_handler(exc, mocker.Mock())
 
             expected_response = {
@@ -202,19 +201,16 @@ class TestSerializerErrors:
             }
             assert render_response(response.data) == expected_response  # type: ignore
 
-    def test_serializer_field_validation_error_ok(
-        self, book, book_serializer, faker, mocker
-    ):
+    def test_field_validation_error_ok(self, book, book_serializer, faker, mocker):
         data = {
-            "title": faker.word()[:32],  # slice not to exceed max_length
-            "pages": faker.pyint(max_value=360),
             "isbn10": book.isbn10,
+            "pages": faker.pyint(max_value=360),
+            "title": faker.word()[:32],  # slice not to exceed max_length
         }
 
         serializer = book_serializer(data=data)
-        try:
-            serializer.is_valid(raise_exception=True)
-        except exceptions.ValidationError as exc:
+        with pytest.raises(exceptions.ValidationError):
+            exc = serializer.is_valid(raise_exception=True)
             response = exception_handler(exc, mocker.Mock())
 
             expected_response = {
@@ -228,17 +224,16 @@ class TestSerializerErrors:
             }
             assert render_response(response.data) == expected_response  # type: ignore
 
-    def test_serializer_validation_error_ok(self, book_serializer, faker, mocker):
+    def test_validation_error_ok(self, book_serializer, faker, mocker):
         data = {
-            "title": ErrorTriggers.SERIALIZER_VALIDATION.value,
-            "pages": faker.pyint(max_value=360),
             "isbn10": faker.unique.isbn10(),
+            "pages": faker.pyint(max_value=360),
+            "title": ErrorTriggers.SERIALIZER_VALIDATION.value,
         }
 
         serializer = book_serializer(data=data)
-        try:
-            serializer.is_valid(raise_exception=True)
-        except exceptions.ValidationError as exc:
+        with pytest.raises(exceptions.ValidationError):
+            exc = serializer.is_valid(raise_exception=True)
             response = exception_handler(exc, mocker.Mock())
 
             expected_response = {
@@ -250,22 +245,47 @@ class TestSerializerErrors:
 
 @pytest.mark.django_db
 class TestModelSerializerErrors:
-    def test_model_serializer_bad_one_to_one_relationship_error_ok(
+    def test_bad_choice_error_ok(self, book_model_serializer, faker, mocker, user):
+        edition = faker.word()[:8]
+        data = {
+            "author": user.username,
+            "edition": edition,
+            "isbn10": faker.unique.isbn10(),
+            "pages": faker.pyint(max_value=360),
+            "title": faker.word()[:32],
+        }
+
+        serializer = book_model_serializer(data=data)
+        with pytest.raises(exceptions.ValidationError):
+            exc = serializer.is_valid(raise_exception=True)
+            response = exception_handler(exc, mocker.Mock())
+
+            expected_response = {
+                "title": "Validation error.",
+                "invalid_params": [
+                    {
+                        "name": "edition",
+                        "reason": [f'"{edition}" is not a valid choice.'],
+                    }
+                ],
+            }
+            assert render_response(response.data) == expected_response  # type: ignore
+
+    def test_bad_one_to_one_relationship_error_ok(
         self, book_model_serializer, faker, mocker
     ):
         username = faker.user_name()
         data = {
             "author": username,
-            "title": faker.word()[:32],
-            "pages": ErrorTriggers.MODEL_CONSTRAINT.value,
             "isbn10": faker.unique.isbn10(),
+            "pages": ErrorTriggers.MODEL_CONSTRAINT.value,
+            "title": faker.word()[:32],
         }
 
         serializer = book_model_serializer(data=data)
-        try:
+        with pytest.raises(exceptions.ValidationError):
             serializer.is_valid(raise_exception=True)
-            serializer.save()
-        except exceptions.ValidationError as exc:
+            exc = serializer.save()
             response = exception_handler(exc, mocker.Mock())
 
             expected_response = {
@@ -279,23 +299,22 @@ class TestModelSerializerErrors:
             }
             assert render_response(response.data) == expected_response  # type: ignore
 
-    def test_model_serializer_bad_many_to_many_relationship_error_ok(
+    def test_bad_many_to_many_relationship_error_ok(
         self, book_model_serializer, faker, mocker, user
     ):
         library_name1, library_name2 = faker.word()[:32], faker.word()[:32]
         data = {
             "author": user.username,
-            "title": faker.word()[:32],
-            "pages": faker.pyint(max_value=360),
             "isbn10": faker.unique.isbn10(),
             "libraries": [library_name1, library_name2],
+            "pages": faker.pyint(max_value=360),
+            "title": faker.word()[:32],
         }
 
         serializer = book_model_serializer(data=data)
-        try:
+        with pytest.raises(exceptions.ValidationError):
             serializer.is_valid(raise_exception=True)
-            serializer.save()
-        except exceptions.ValidationError as exc:
+            exc = serializer.save()
             response = exception_handler(exc, mocker.Mock())
 
             expected_response = {
@@ -309,21 +328,18 @@ class TestModelSerializerErrors:
             }
             assert render_response(response.data) == expected_response  # type: ignore
 
-    def test_model_serializer_constraint_error_ok(
-        self, book_model_serializer, faker, mocker, user
-    ):
+    def test_constraint_error_ok(self, book_model_serializer, faker, mocker, user):
         data = {
             "author": user.username,
-            "title": faker.word()[:32],
-            "pages": ErrorTriggers.MODEL_CONSTRAINT.value,
             "isbn10": faker.unique.isbn10(),
+            "pages": ErrorTriggers.MODEL_CONSTRAINT.value,
+            "title": faker.word()[:32],
         }
 
         serializer = book_model_serializer(data=data)
-        try:
+        with pytest.raises(ValidationError):
             serializer.is_valid(raise_exception=True)
-            serializer.save()
-        except ValidationError as exc:
+            exc = serializer.save()
             response = exception_handler(exc, mocker.Mock())
 
             expected_response = {
@@ -332,13 +348,10 @@ class TestModelSerializerErrors:
             }
             assert render_response(response.data) == expected_response  # type: ignore
 
-    def test_model_serializer_field_required_error_ok(
-        self, book_model_serializer, mocker
-    ):
+    def test_field_required_error_ok(self, book_model_serializer, mocker):
         serializer = book_model_serializer(data={})
-        try:
-            serializer.is_valid(raise_exception=True)
-        except exceptions.ValidationError as exc:
+        with pytest.raises(exceptions.ValidationError):
+            exc = serializer.is_valid(raise_exception=True)
             response = exception_handler(exc, mocker.Mock())
 
             expected_response = {
@@ -364,21 +377,18 @@ class TestModelSerializerErrors:
             }
             assert render_response(response.data) == expected_response  # type: ignore
 
-    def test_model_serializer_method_error_ok(
-        self, book_model_serializer, faker, mocker, user
-    ):
+    def test_method_error_ok(self, book_model_serializer, faker, mocker, user):
         data = {
             "author": user.username,
-            "title": ErrorTriggers.SERIALIZER_METHOD.value,
-            "pages": faker.pyint(max_value=360),
             "isbn10": faker.unique.isbn10(),
+            "pages": faker.pyint(max_value=360),
+            "title": ErrorTriggers.SERIALIZER_METHOD.value,
         }
 
         serializer = book_model_serializer(data=data)
-        try:
+        with pytest.raises(exceptions.ValidationError):
             serializer.is_valid(raise_exception=True)
-            serializer.save()
-        except exceptions.ValidationError as exc:
+            exc = serializer.save()
             response = exception_handler(exc, mocker.Mock())
 
             expected_response = {
@@ -387,53 +397,21 @@ class TestModelSerializerErrors:
             }
             assert render_response(response.data) == expected_response  # type: ignore
 
-    def test_model_serializer_validation_error_ok(
-        self, book_model_serializer, faker, mocker, user
-    ):
+    def test_validation_error_ok(self, book_model_serializer, faker, mocker, user):
         data = {
             "author": user.username,
-            "title": ErrorTriggers.SERIALIZER_VALIDATION.value,
-            "pages": faker.pyint(max_value=360),
             "isbn10": faker.unique.isbn10(),
+            "pages": faker.pyint(max_value=360),
+            "title": ErrorTriggers.SERIALIZER_VALIDATION.value,
         }
 
         serializer = book_model_serializer(data=data)
-        try:
-            serializer.is_valid(raise_exception=True)
-        except exceptions.ValidationError as exc:
+        with pytest.raises(exceptions.ValidationError):
+            exc = serializer.is_valid(raise_exception=True)
             response = exception_handler(exc, mocker.Mock())
 
             expected_response = {
                 "title": "Validation error.",
                 "detail": [f"Title cannot be {ErrorTriggers.SERIALIZER_VALIDATION}"],
-            }
-            assert render_response(response.data) == expected_response  # type: ignore
-
-    def test_model_serializer_bad_choice_error_ok(
-        self, book_model_serializer, faker, mocker, user
-    ):
-        edition = faker.word()[:8]
-        data = {
-            "author": user.username,
-            "title": faker.word()[:32],
-            "pages": faker.pyint(max_value=360),
-            "isbn10": faker.unique.isbn10(),
-            "edition": edition,
-        }
-
-        serializer = book_model_serializer(data=data)
-        try:
-            serializer.is_valid(raise_exception=True)
-        except exceptions.ValidationError as exc:
-            response = exception_handler(exc, mocker.Mock())
-
-            expected_response = {
-                "title": "Validation error.",
-                "invalid_params": [
-                    {
-                        "name": "edition",
-                        "reason": [f'"{edition}" is not a valid choice.'],
-                    }
-                ],
             }
             assert render_response(response.data) == expected_response  # type: ignore
