@@ -4,4 +4,4 @@
 
 ## [1.0.0] - 1900-01-14
 
-- First release on on PyPI
+- First release on PyPI
