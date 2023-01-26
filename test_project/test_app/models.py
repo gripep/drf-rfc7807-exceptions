@@ -15,14 +15,14 @@ class Book(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="books", on_delete=models.CASCADE
     )
-    title = models.CharField(max_length=32)
-    pages = models.IntegerField()
-    isbn10 = models.CharField(max_length=13, unique=True)
     edition = models.CharField(
         max_length=8,
         choices=BookEditionChoices.choices,
         default=BookEditionChoices.FIRST,
     )
+    isbn10 = models.CharField(max_length=13, unique=True)
+    pages = models.IntegerField()
+    title = models.CharField(max_length=32)
 
     class Meta:
         constraints = [
@@ -50,5 +50,5 @@ class Book(models.Model):
 
 
 class Library(models.Model):
-    name = models.CharField(max_length=32)
     books = models.ManyToManyField(Book)
+    name = models.CharField(max_length=32)

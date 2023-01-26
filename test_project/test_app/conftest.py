@@ -12,11 +12,6 @@ User = get_user_model()
 
 
 @pytest.fixture
-def user():
-    return UserFactory()
-
-
-@pytest.fixture
 def book():
     author = UserFactory()
     return BookFactory(author=author)
@@ -28,11 +23,16 @@ def library():
 
 
 @pytest.fixture
+def user():
+    return UserFactory()
+
+
+@pytest.fixture
 def book_serializer():
     class BookSerializer(serializers.Serializer):
-        title = serializers.CharField()
-        pages = serializers.CharField()
         isbn10 = serializers.CharField()
+        pages = serializers.CharField()
+        title = serializers.CharField()
 
         def validate_isbn10(self, isbn10):
             if Book.objects.filter(isbn10=isbn10).exists():
