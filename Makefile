@@ -11,11 +11,13 @@ format:  ## Run formatters (black, isort) with poetry
 install:  ## Install dependencies with poetry
 	poetry install -v
 
+lint:  ## Check format (black, isort) and run flake8
+	poetry run isort --check drf_problem_detail_exceptions test_project
+	poetry run black --check drf_problem_detail_exceptions test_project --exclude migrations
+	poetry run flake8 drf_problem_detail_exceptions test_project --max-line-length 88
+
 shell:  ## Run poetry shell
 	poetry shell
 
-test-pytest:  ## Run pytest with poetry
+test:  ## Run pytest with poetry
 	poetry run pytest test_project
-
-test-tox:  ## Run tox
-	tox

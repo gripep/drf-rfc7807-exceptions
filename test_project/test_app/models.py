@@ -30,6 +30,7 @@ class Book(models.Model):
                 # one page a day keeps the errors away ;)
                 name="%(app_label)s_%(class)s_pages_lte_360",
                 check=models.Q(pages__lte=360),
+                # flake8: noqa E501
                 # ! this is not available for Django < 4.1
                 # ! handle constraint errors as you wish
                 # ! error message would look like: "Constraint “test_app_book_pages_lte_360” is violated."
