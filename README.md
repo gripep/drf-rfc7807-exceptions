@@ -4,7 +4,7 @@
 
 A library for [Django Rest Framework](https://www.django-rest-framework.org/) returning consistent and easy-to-parse error messages.
 
-This library was built with [RFC7807](https://tools.ietf.org/html/rfc7807) guidelines in mind, but with a small twist: it defines a "problem detail" as a `list` but it still serves as a way to include errors in a predictable and easy-to-parse format for any consumer.
+This library was built with [RFC7807](https://tools.ietf.org/html/rfc7807) guidelines in mind, but with a small twist: it defines a "problem detail" as a `list` but it still serves as a way to include errors in a predictable and easy-to-parse format for any API consumer.
 
 This library was designed to be used by anyone, therefore all of the advanced RFC7807 "problem detail" components are optional.
 Errors, on the other hand, are always formatted with RFC7807 keywords and DRF exception data.
@@ -76,7 +76,7 @@ REST_FRAMEWORK = {
 }
 ```
 
-#### Other bad requests with no details
+#### Other bad requests with no detail
 
 ```json
 {
@@ -93,7 +93,7 @@ _Coming soon..._
 Default available settings:
 
 ```python
-DRF_PROBLEM_DETAILS_EXCEPTIONS = {
+DRF_PROBLEM_DETAIL_EXCEPTIONS = {
     "CAMELIZE": False,
     "EXTRA_HANDLERS": [],
     "FIELDS_SEPARATOR": ".",
@@ -102,7 +102,7 @@ DRF_PROBLEM_DETAILS_EXCEPTIONS = {
 
 - #### CAMELIZE
 
-Camel case support for Django Rest Framework Exceptions JSON error responses.
+Camel case support for Django Rest Framework exceptions JSON error responses.
 
 If `CAMELIZE` is set to `True`:
 
@@ -201,7 +201,7 @@ def handle_exc_custom_authentication_failed(exc):
 Then add it to the `EXTRA_HANDLERS` list in this package settings:
 
 ```python
-DRF_PROBLEM_DETAILS_EXCEPTIONS = {
+DRF_PROBLEM_DETAIL_EXCEPTIONS = {
     "EXTRA_HANDLERS": [
         "path.to.my.handlers.handle_exc_custom_authentication_failed",
         # ...
@@ -233,21 +233,33 @@ Will result in:
 
 ## Testing
 
-#### Using tox
+### Using tox (recommended)
 
 ```
 tox
 ```
 
-#### Using poetry
+### Using poetry
 
-Install dependencies:
+##### Install dependencies:
 
 ```
-poetry install
+make install
 ```
 
-Run tests:
+or
+
+```
+poetry install -v
+```
+
+##### Run tests:
+
+```
+make test
+```
+
+or
 
 ```
 poetry run pytest test_project
