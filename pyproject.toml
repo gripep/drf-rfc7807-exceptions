@@ -45,7 +45,6 @@ pytest = "^6.2.5"
 pytest-django = "^3.0"
 pytest-mock = "^3.10.0"
 six = "^1.16.0"
-pre-commit = "^3.0.1"
 
 
 [tool.isort]
