@@ -9,6 +9,10 @@ This library was built with [RFC7807](https://tools.ietf.org/html/rfc7807) guide
 This library was designed to be used by anyone, therefore all of the advanced RFC7807 "problem detail" components are optional.
 Errors, on the other hand, are always formatted with RFC7807 keywords and DRF exception data.
 
+**N.B.**
+
+**This is still in the works, and the ability to raise RFC7870-like errors will be added in the near future.**
+
 ## Table of Contents
 
 - [Installation](#installation)
