@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "drf-problem-detail-exceptions"
-version = "1.0.0"
+version = "0.1.0"
 description = "A library for Django Rest Framework returning consistent and easy-to-parse error messages inspired by RFC7807 guidelines."
 license = "MIT"
 authors = ["Gian <30044863+gripep@users.noreply.github.com>"]
