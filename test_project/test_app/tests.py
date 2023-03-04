@@ -4,7 +4,7 @@ from rest_framework import exceptions
 
 import pytest
 
-from drf_problem_detail_exceptions import exception_handler
+from drf_rfc7807_exceptions import exception_handler
 from test_app.utils import ErrorTriggers, render_response
 
 

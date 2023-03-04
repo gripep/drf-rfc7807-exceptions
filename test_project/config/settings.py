@@ -83,5 +83,5 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
     ),
-    "EXCEPTION_HANDLER": "drf_problem_detail_exceptions.exception_handler",
+    "EXCEPTION_HANDLER": "drf_rfc7807_exceptions.exception_handler",
 }

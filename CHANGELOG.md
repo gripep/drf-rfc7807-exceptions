@@ -1,7 +1,5 @@
 # Change Log
 
----
-
-## [1.0.0] - 1900-01-14
+## [0.1.0] - 2023-02-25
 
 - First release on PyPI

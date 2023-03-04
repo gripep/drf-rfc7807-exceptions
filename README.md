@@ -1,4 +1,4 @@
-# Django Rest Framework Problem Detail Exceptions
+# Django Rest Framework RFC7807 Exceptions
 
 ## What is this?
 
@@ -32,7 +32,7 @@ Errors, on the other hand, are always formatted with RFC7807 keywords and DRF ex
 Install using the command line:
 
 ```
-pip install drf-problem-detail-exceptions
+pip install drf-rfc7807-exceptions
 ```
 
 ## Usage
@@ -44,7 +44,7 @@ Add `EXCEPTION_HANDLER` in your `REST_FRAMEWORK` settings of your Django project
 ```python
 REST_FRAMEWORK = {
     # ...
-    "EXCEPTION_HANDLER": "drf_problem_detail_exceptions.exception_handler",
+    "EXCEPTION_HANDLER": "drf_rfc7807_exceptions.exception_handler",
 }
 ```
 
@@ -97,7 +97,7 @@ _Coming soon..._
 Default available settings:
 
 ```python
-DRF_PROBLEM_DETAIL_EXCEPTIONS = {
+DRF_RFC7807_EXCEPTIONS = {
     "CAMELIZE": False,
     "EXTRA_HANDLERS": [],
     "FIELDS_SEPARATOR": ".",
@@ -205,7 +205,7 @@ def handle_exc_custom_authentication_failed(exc):
 Then add it to the `EXTRA_HANDLERS` list in this package settings:
 
 ```python
-DRF_PROBLEM_DETAIL_EXCEPTIONS = {
+DRF_RFC7807_EXCEPTIONS = {
     "EXTRA_HANDLERS": [
         "path.to.my.handlers.handle_exc_custom_authentication_failed",
         # ...
@@ -271,7 +271,7 @@ poetry run pytest test_project
 
 ## Support
 
-Please [open an issue](https://github.com/gripep/drf-problem-detail-exceptions/issues/new).
+Please [open an issue](https://github.com/gripep/drf-rfc7807-exceptions/issues/new).
 
 ## Contributing
 

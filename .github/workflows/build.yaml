@@ -1,4 +1,4 @@
-name: drf_problem_detail_exceptions CI
+name: drf_rfc7807_exceptions CI
 
 on:
   push:
